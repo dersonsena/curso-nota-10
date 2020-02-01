@@ -2,83 +2,43 @@
 
 namespace App\Core\Migration;
 
-use yii\db\Expression;
 use yii\db\Migration;
 
-abstract class MigrationAbstract extends Migration
+class MigrationAbstract extends Migration
 {
-    /**
-     * Setup the binary id column
-     * @param int $size
-     * @return \yii\db\ColumnSchemaBuilder
-     */
-    public function binaryId(int $size = 16)
-    {
-        return $this->getDb()->getSchema()->createColumnSchemaBuilder("BINARY({$size})");
-    }
+    use Columns, ValuesGenerators;
 
     /**
-     * Setup the UUID column
-     * @return \yii\db\ColumnSchemaBuilder
+     * @var array
      */
-    public function uuid()
-    {
-        return $this->string(36)->notNull()->unique();
-    }
+    public $data;
 
     /**
-     * Setup the status column
-     * @return \yii\db\ColumnSchemaBuilder
+     * The abstraction of the create table process. This routine create the PK index
+     * @param string $tableName
+     * @param array $specificColumns
+     * @param bool $createPK
      */
-    public function status()
+    public function createTableWith(string $tableName, array $specificColumns, bool $createPK = false)
     {
-        return $this->smallInteger(1)->notNull()->defaultValue(1);
-    }
-
-    /**
-     * Setup the deleted column
-     * @return \yii\db\ColumnSchemaBuilder
-     */
-    public function deleted()
-    {
-        return $this->smallInteger(1)->notNull()->defaultValue(0);
-    }
-
-    /**
-     * Returns the blame and timed events columns list
-     * @return array
-     */
-    public function blameAndTimedEventsColumns(): array
-    {
-        return array_merge(
-            $this->timedEventsColumns(),
-            $this->blameColumns()
+        $this->createTable(
+            "{{%{$tableName}}}",
+            array_merge($specificColumns, $this->blameAndTimestampColumns()),
+            'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB'
         );
+
+        if ($createPK) {
+            $this->addPrimaryKeyColumn($tableName);
+        }
     }
 
     /**
-     * Returns the blame columns list
-     * @return array
+     * Abstract the method of the add the primary key column
+     * @param string $tableName
+     * @param string $column
      */
-    public function blameColumns(): array
+    public function addPrimaryKeyColumn(string $tableName, $column = 'id')
     {
-        return [
-            'created_by' => $this->string(100)->notNull(),
-            'updated_by' => $this->string(100)->defaultValue(new Expression('NULL')),
-            'deleted_by' => $this->string(100)->defaultValue(new Expression('NULL')),
-        ];
-    }
-
-    /**
-     * Returns the timed events columns list
-     * @return array
-     */
-    public function timedEventsColumns(): array
-    {
-        return [
-            'created_at' => $this->dateTime()->notNull(),
-            'updated_at' => $this->dateTime()->defaultValue(new Expression('NULL')),
-            'deleted_at' => $this->dateTime()->defaultValue(new Expression('NULL')),
-        ];
+        $this->addPrimaryKey("pk_{$tableName}_id", "{{%$tableName}}", $column);
     }
 }
