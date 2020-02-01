@@ -1,12 +1,12 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $content string */
-use App\Widgets\Alert;
+use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use App\Assets\AppAsset;
+use app\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
@@ -33,25 +33,22 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    $guestItems = [
+        ['label' => 'Login', 'url' => ['/auth/login']]
+    ];
+
+    $privateItems = [
+        //['label' => 'Meus Artigos', 'url' => ['/articles']],
+        //['label' => 'Perfil', 'url' => ['/authors/update', 'id' => Yii::$app->user->id]],
+        ['label' => 'Logout ('. Yii::$app->user->identity->name .')', 'url' => ['/myiidium/logout']]
+    ];
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' => array_merge(
+            (Yii::$app->user->isGuest ? $guestItems : $privateItems)
+        ),
     ]);
     NavBar::end();
     ?>
@@ -68,7 +65,6 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

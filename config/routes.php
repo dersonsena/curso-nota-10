@@ -1,9 +1,9 @@
 <?php
 
 return [
-    // Instruction to create Routes
-    // To create a standalone route:
-    // 'pattern/to/your/route' => 'controller-id/action-id'
+     '/' => 'auth/login',
+     '/auth/login' => 'auth/login',
+     '/auth/logout' => 'auth/logout',
 
     // To create a standalone route with more configurations:
     /*[

@@ -4,10 +4,16 @@ $db = require __DIR__ . '/db.php';
 $routes = require __DIR__ . '/routes.php';
 
 $config = [
-    'id' => 'yii2-skeleton',
+    'id' => 'curso-nota10',
+    'name' => 'Curso Nota 10',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'App\Controllers',
+    'timezone' => 'America/Fortaleza',
+    'language' => 'pt-BR',
+    'defaultRoute' => ['auth/login'],
+    'controllerMap' => [
+        'auth' => \App\Http\Auth\AuthController::class,
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
