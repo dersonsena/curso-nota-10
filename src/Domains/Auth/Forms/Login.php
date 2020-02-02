@@ -2,8 +2,9 @@
 
 namespace App\Domains\Auth\Forms;
 
+use App\Infra\Repository\User\UserRepository;
 use Yii;
-use App\Domains\User\Entity\User;
+use App\Domains\User\User;
 use yii\base\Model;
 
 /**
@@ -14,11 +15,35 @@ use yii\base\Model;
  */
 class Login extends Model
 {
+    /**
+     * @var string
+     */
     public $email;
+
+    /**
+     * @var string
+     */
     public $password;
+
+    /**
+     * @var boolean
+     */
     public $rememberMe = true;
 
-    private $user = false;
+    /**
+     * @var User|null
+     */
+    private $user = null;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    public function init()
+    {
+        $this->userRepository = Yii::$container->get(UserRepository::class);
+    }
 
     /**
      * @return array the validation rules.
@@ -51,12 +76,14 @@ class Login extends Model
      */
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
+        if ($this->hasErrors()) {
+            return;
+        }
 
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect email or password.');
-            }
+        $user = $this->getUser();
+
+        if (!$user || !$user->validatePassword($this->password)) {
+            $this->addError($attribute, 'E-mail e/ou Senha inválidos');
         }
     }
 
@@ -80,8 +107,8 @@ class Login extends Model
      */
     public function getUser()
     {
-        if ($this->user === false) {
-            $this->user = User::findByUsername($this->email);
+        if (is_null($this->user)) {
+            $this->user = $this->userRepository->findByEmail($this->email);
         }
 
         return $this->user;

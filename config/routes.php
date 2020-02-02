@@ -5,6 +5,8 @@ return [
      '/auth/login' => 'auth/login',
      '/auth/logout' => 'auth/logout',
 
+    '/dashboard' => 'dashboard/index',
+
     // To create a standalone route with more configurations:
     /*[
         'pattern' => 'pattern/to/your/route',

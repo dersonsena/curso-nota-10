@@ -10,7 +10,7 @@ class AuthController extends ControllerBase
     {
         return [
             'login' => LoginAction::class,
-            'logout' => LoginAction::class
+            'logout' => LogoutAction::class
         ];
     }
 }

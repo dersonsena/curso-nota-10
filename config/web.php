@@ -13,6 +13,7 @@ $config = [
     'defaultRoute' => ['auth/login'],
     'controllerMap' => [
         'auth' => \App\Http\Auth\AuthController::class,
+        'dashboard' => \App\Http\Dashboard\DashboardController::class
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -26,8 +27,9 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'App\Models\User',
+            'identityClass' => 'App\Domains\User\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['/auth/login']
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

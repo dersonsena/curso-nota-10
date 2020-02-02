@@ -41,7 +41,7 @@ AppAsset::register($this);
     $privateItems = [
         //['label' => 'Meus Artigos', 'url' => ['/articles']],
         //['label' => 'Perfil', 'url' => ['/authors/update', 'id' => Yii::$app->user->id]],
-        ['label' => 'Logout ('. Yii::$app->user->identity->name .')', 'url' => ['/myiidium/logout']]
+        ['label' => 'Logout ('. Yii::$app->getUser()->getIdentity()->name .')', 'url' => ['/auth/logout']]
     ];
 
     echo Nav::widget([
@@ -64,7 +64,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Getto Tecnologia <?= date('Y') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

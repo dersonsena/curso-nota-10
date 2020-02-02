@@ -9,8 +9,8 @@ class LogoutAction extends Action
 {
     public function run()
     {
-        Yii::$app->user->logout();
+        Yii::$app->getUser()->logout();
 
-        return $this->controller->goHome();
+        return $this->controller->redirect(['/auth/login']);
     }
 }

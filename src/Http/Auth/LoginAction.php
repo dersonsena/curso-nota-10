@@ -10,8 +10,8 @@ class LoginAction extends Action
 {
     public function run()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->controller->goHome();
+        if (!Yii::$app->getUser()->getIsGuest()) {
+            return $this->controller->redirect(['/dashboard']);
         }
 
         /** @var Login $model */
