@@ -7,6 +7,16 @@ use yii\web\Controller;
 
 abstract class ControllerBase extends Controller
 {
+    /**
+     * @var string
+     */
+    protected $controllerDescription;
+
+    /**
+     * @var string
+     */
+    protected $actionDescription;
+
     public function behaviors()
     {
         return [
@@ -21,5 +31,21 @@ abstract class ControllerBase extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerDescription():? string
+    {
+        return $this->controllerDescription;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionDescription():? string
+    {
+        return $this->actionDescription;
     }
 }

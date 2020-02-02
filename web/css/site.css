@@ -76,6 +76,11 @@ a.desc:after {
     white-space: nowrap;
 }
 
+.grid-view td {
+    white-space: nowrap;
+    vertical-align: middle !important;
+}
+
 .hint-block {
     display: block;
     margin-top: 5px;
@@ -112,4 +117,13 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+div.required > label:after, label.required:after {
+    content: " *";
+    color: red;
+}
+
+table.detail-view tr th {
+    width: 260px;
 }

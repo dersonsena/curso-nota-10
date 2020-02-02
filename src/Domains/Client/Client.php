@@ -4,6 +4,7 @@ namespace App\Domains\Client;
 
 use App\Domains\Bill\Bill;
 use App\Infra\ActiveRecord\ActiveRecordAbstract;
+use App\Infra\ActiveRecord\Validators\CpfCnpjValidator;
 
 /**
  * This is the model class for table "{{%clients}}".
@@ -55,6 +56,7 @@ class Client extends ActiveRecordAbstract
             [['cpf', 'phone_home', 'phone_cell', 'phone_commercial'], 'string', 'max' => 11],
             [['address_number', 'address_zipcode'], 'string', 'max' => 10],
             [['created_by', 'updated_by', 'deleted_by'], 'string', 'max' => 100],
+            ['cpf', CpfCnpjValidator::class],
         ];
     }
 

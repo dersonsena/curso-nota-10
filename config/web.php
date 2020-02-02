@@ -1,4 +1,7 @@
 <?php
+
+use App\Infra\Formatter\Formatter;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $routes = require __DIR__ . '/routes.php';
@@ -49,6 +52,19 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => $routes['routes'],
+        ],
+        'formatter' => [
+            'class' => Formatter::class,
+            'nullDisplay' => '-',
+            'defaultTimeZone' => 'America/Fortaleza',
+            'dateFormat' => 'dd/MM/yyyy',
+            'datetimeFormat' => 'dd/MM/yyyy HH:mm',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 2,
+                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+            ]
         ],
     ],
     'params' => $params,

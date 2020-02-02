@@ -1,7 +1,6 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $content string */
-
 use App\Infra\Assets\AppAsset;
 use App\Infra\Widgets\General\Alert;
 use yii\helpers\Html;
@@ -19,7 +18,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title . ' | ' . Yii::$app->name) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -40,8 +39,8 @@ AppAsset::register($this);
     ];
 
     $privateItems = [
-        //['label' => 'Meus Artigos', 'url' => ['/articles']],
-        //['label' => 'Perfil', 'url' => ['/authors/update', 'id' => Yii::$app->user->id]],
+        ['label' => 'Clientes', 'url' => ['/clients']],
+        ['label' => 'Financeiro', 'url' => ['/bills']],
         ['label' => 'Logout ('. Yii::$app->getUser()->getIdentity()->name .')', 'url' => ['/auth/logout']]
     ];
 
