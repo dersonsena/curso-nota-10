@@ -3,7 +3,7 @@
 namespace App\Http\Auth;
 
 use Yii;
-use App\Domains\Auth\Forms\LoginForm;
+use App\Domains\Auth\Forms\Login;
 use yii\base\Action;
 
 class LoginAction extends Action
@@ -14,8 +14,8 @@ class LoginAction extends Action
             return $this->controller->goHome();
         }
 
-        /** @var LoginForm $model */
-        $model = Yii::$container->get(LoginForm::class);
+        /** @var Login $model */
+        $model = Yii::$container->get(Login::class);
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->controller->goBack();

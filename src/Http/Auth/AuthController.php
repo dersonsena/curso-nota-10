@@ -2,7 +2,7 @@
 
 namespace App\Http\Auth;
 
-use App\Core\Controller\ControllerBase;
+use App\Application\Controller\ControllerBase;
 
 class AuthController extends ControllerBase
 {

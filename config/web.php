@@ -4,8 +4,8 @@ $db = require __DIR__ . '/db.php';
 $routes = require __DIR__ . '/routes.php';
 
 $config = [
-    'id' => 'curso-nota10',
-    'name' => 'Curso Nota 10',
+    'id' => 'escolinha-tia-lene',
+    'name' => 'Escolinha Tia Lene',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'timezone' => 'America/Fortaleza',
