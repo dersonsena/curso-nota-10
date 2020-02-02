@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\ActiveRecord\Validators;
+namespace App\Infra\ActiveRecord\Validators;
 
 use GoSale\YiiCore\Helper\Utils;
 use yii\validators\Validator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\ActiveRecord;
+namespace App\Infra\ActiveRecord;
 
 trait AttributeLabels
 {

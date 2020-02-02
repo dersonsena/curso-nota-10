@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Application\ActiveRecord;
+namespace App\Infra\ActiveRecord;
 
 use Yii;
 use DateTime;
-use App\Application\ActiveRecord\Behaviors\BlameableBehavior;
-use App\Application\ActiveRecord\Behaviors\TimestampBehavior;
+use App\Infra\ActiveRecord\Behaviors\BlameableBehavior;
+use App\Infra\ActiveRecord\Behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii2tech\ar\softdelete\SoftDeleteBehavior;

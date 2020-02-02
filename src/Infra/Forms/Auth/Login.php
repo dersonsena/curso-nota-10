@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Auth\Forms;
+namespace App\Infra\Forms\Auth;
 
 use App\Infra\Repository\User\UserRepository;
 use Yii;

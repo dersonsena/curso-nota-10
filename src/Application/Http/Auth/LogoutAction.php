@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Auth;
+namespace App\Application\Http\Auth;
 
 use Yii;
 use yii\base\Action;

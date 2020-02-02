@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Auth;
+namespace App\Application\Http\Auth;
 
 use Yii;
-use App\Domains\Auth\Forms\Login;
+use App\Infra\Forms\Auth\Login;
 use yii\base\Action;
 
 class LoginAction extends Action

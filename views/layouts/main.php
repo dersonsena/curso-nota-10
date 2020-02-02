@@ -1,8 +1,9 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $content string */
-use App\Presentations\Assets\AppAsset;
-use App\Presentations\Widgets\General\Alert;
+
+use App\Infra\Assets\AppAsset;
+use App\Infra\Widgets\General\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;

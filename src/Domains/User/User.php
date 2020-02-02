@@ -5,7 +5,7 @@ namespace App\Domains\User;
 use Yii;
 use App\Domains\User\Behaviors\CryptPassword;
 use App\Domains\User\Behaviors\RefreshAuthKey;
-use App\Application\ActiveRecord\ActiveRecordAbstract;
+use App\Infra\ActiveRecord\ActiveRecordAbstract;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 

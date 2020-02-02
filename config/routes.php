@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Auth\AuthController;
-use App\Http\Dashboard\DashboardController;
+use App\Application\Http\Auth\AuthController;
+use App\Application\Http\Dashboard\DashboardController;
 
 return [
     'controllerMap' => [

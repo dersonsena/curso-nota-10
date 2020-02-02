@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Dashboard;
+namespace App\Application\Http\Dashboard;
 
 use App\Application\Controller\ControllerBase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\ActiveRecord\Behaviors;
+namespace App\Infra\ActiveRecord\Behaviors;
 
 use yii\behaviors\BlameableBehavior as YiiBlameableBehavior;
 use yii\db\BaseActiveRecord;
