@@ -11,10 +11,7 @@ $config = [
     'timezone' => 'America/Fortaleza',
     'language' => 'pt-BR',
     'defaultRoute' => ['auth/login'],
-    'controllerMap' => [
-        'auth' => \App\Http\Auth\AuthController::class,
-        'dashboard' => \App\Http\Dashboard\DashboardController::class
-    ],
+    'controllerMap' => $routes['controllerMap'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -51,7 +48,7 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => $routes,
+            'rules' => $routes['routes'],
         ],
     ],
     'params' => $params,
