@@ -25,18 +25,11 @@ class <?= $className ?> extends MigrationAbstract
      */
     public function safeUp()
     {
-        // set the table columns
-        $columns = [
+        $this->createTableWith('table_name', [
             'id' => $this->primaryKey(),
             'status' => $this->status(),
             'deleted' => $this->deleted()
-        ];
-
-        $this->createTable(
-            '{{%table_name}}',
-            array_merge($columns, $this->blameAndTimedEventsColumns()),
-            'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB'
-        );
+        ]);
     }
 
     /**

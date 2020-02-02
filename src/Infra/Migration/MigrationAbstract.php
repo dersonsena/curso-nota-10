@@ -9,11 +9,6 @@ class MigrationAbstract extends Migration
     use Columns, ValuesGenerators;
 
     /**
-     * @var array
-     */
-    public $data;
-
-    /**
      * The abstraction of the create table process. This routine create the PK index
      * @param string $tableName
      * @param array $specificColumns

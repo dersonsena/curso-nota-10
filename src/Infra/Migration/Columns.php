@@ -31,14 +31,17 @@ trait Columns
     /**
      * Setup the enum column
      * @param array $types
-     * @param bool $notNull
-     * @return string
+     * @return ColumnSchemaBuilder
      */
-    public function enum(array $types, bool $notNull = true)
+    public function enum(array $types)
     {
-        $notNullStatement = ($notNull ? 'NOT NULL' : '');
-        $parse = "'" . implode("', '", $types) . "'";
-        return "ENUM ({$parse}) {$notNullStatement}";
+        $values = implode(',', array_map(function ($type) {
+            return "'{$type}'";
+        }, $types));
+
+        return $this->getDb()
+            ->getSchema()
+            ->createColumnSchemaBuilder("ENUM({$values})");
     }
 
     /**
