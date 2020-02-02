@@ -22,13 +22,4 @@ abstract class ControllerBase extends Controller
             ],
         ];
     }
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ]
-        ];
-    }
 }
