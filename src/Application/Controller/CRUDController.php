@@ -2,135 +2,82 @@
 
 namespace App\Application\Controller;
 
-use App\Infra\ActiveRecord\ActiveRecordAbstract;
-use Exception;
 use Yii;
+use Exception;
+use App\Application\Controller\Actions\Create;
+use App\Application\Controller\Actions\Delete;
+use App\Application\Controller\Actions\Index;
+use App\Application\Controller\Actions\Update;
+use App\Application\Controller\Actions\View;
+use App\Infra\ActiveRecord\ActiveRecordAbstract;
 use yii\web\NotFoundHttpException;
 
 abstract class CRUDController extends ControllerBase
 {
+    use Index, View, Create, Update, Delete;
+
+    /**
+     * @var ActiveRecordAbstract
+     */
+    private $model;
+
+    /**
+     * @var ActiveRecordAbstract
+     */
+    private $modelSearch;
+
     /**
      * @return ActiveRecordAbstract
      */
-    abstract public function getModel();
+    abstract public function getModelName(): string;
 
     /**
      * @return ActiveRecordAbstract
      */
-    abstract public function getModelSearch();
+    abstract public function getModelSearchName(): string;
 
-    /**
-     * Lists all User models.
-     * @return mixed
-     */
-    public function actionIndex()
+    public function init()
     {
-        $this->actionDescription = 'Listagem';
-        $dataProvider = $this->getModelSearch()->search(Yii::$app->getRequest()->getQueryParams());
+        parent::init();
 
-        return $this->render('index', [
-            'searchModel' => $this->getModelSearch(),
-            'dataProvider' => $dataProvider,
-        ]);
+        $this->model = Yii::$container->get($this->getModelName());
+        $this->modelSearch = Yii::$container->get($this->getModelSearchName());
+
+        $this->controllerDescription = $this->model::getEntityDescription();
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
+     * @return ActiveRecordAbstract
      */
-    public function actionView($id)
+    protected function getModel(): ActiveRecordAbstract
     {
-        $this->actionDescription = $this->viewActionDescription;
-
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->model;
     }
 
     /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return ActiveRecordAbstract
      */
-    public function actionCreate()
+    protected function getModelSearch(): ActiveRecordAbstract
     {
-        $this->actionDescription = $this->createActionDescription;
-        $this->model->scenario = $this->createScenario;
-
-        if ($this->model->load($this->getRequest()->post())) {
-            if ($this->model->validate()) {
-                return $this->saveFormData();
-            }
-        }
-
-        return $this->render($this->createViewFile, [
-            'model' => $this->model,
-        ]);
-    }
-
-    /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionUpdate($id)
-    {
-        $this->actionDescription = $this->updateActionDescription;
-        $this->model = $this->findModel($id);
-        $this->model->scenario = $this->updateScenario;
-
-        if ($this->model->load($this->getRequest()->post())) {
-            if ($this->model->validate()) {
-                return $this->saveFormData();
-            }
-        }
-
-        return $this->render($this->updateViewFile, [
-            'model' => $this->model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionDelete($id)
-    {
-        /** @var ModelBase $model */
-        $model = $this->findModel($id);
-        $model->deleted = Yii::$app->params['active'];
-        $model->save(true, ['deleted']);
-
-        $this->getSession()->setFlash('growl', [
-            'type' => 'success',
-            'title' => 'Tudo certo!',
-            'message' => 'O registro foi removido com sucesso!'
-        ]);
-
-        return $this->redirect(['index']);
+        return $this->modelSearch;
     }
 
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ModelBase the loaded model
+     * @return ActiveRecordAbstract the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = $this->model->findOne($id)) !== null) {
-            return $model;
-        } else {
+        $this->model = $this->model::findOne($id);
+
+        if (is_null($this->model)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        return $this->model;
     }
 
     /**
@@ -140,24 +87,22 @@ abstract class CRUDController extends ControllerBase
     protected function saveFormData()
     {
         try {
-            if (!$this->model->save() || $this->model->hasErrors()) {
-                throw new Exception('Houve um erro ao salvar o registro.' . $this->model->getErrorsToString());
+            $isNewRecord = $this->getModel()->getIsNewRecord();
+
+            if (!$this->getModel()->save() || $this->getModel()->hasErrors()) {
+                throw new Exception('Houve um erro ao salvar o registro.' . $this->getModel()->getErrorsToHTMLList());
             }
 
-            $this->getSession()->setFlash('growl', [
-                'type' => 'success',
-                'title' => 'Tudo certo!',
-                'message' => 'Seus dados foram gravados com sucesso!'
-            ]);
+            Yii::$app->getSession()->setFlash('success', 'Seus dados foram gravados com sucesso!');
 
-            if (!is_null($this->getRequest()->post('save-and-continue'))) {
-                return $this->refresh();
-            } else {
+            if ($isNewRecord) {
                 return $this->redirect(['index']);
             }
 
-        } catch(Exception $e) {
-            $this->getSession()->setFlash('error', '<strong style="font-size: 1.5em">Opsss... Um erro aconteceu!</strong>' . $e->getMessage());
+            return $this->redirect(['update', 'id' => $this->getModel()->id]);
+
+        } catch (Exception $e) {
+            Yii::$app->getSession()->setFlash('error', $e->getMessage());
             return $this->redirect([$this->action->id]);
         }
     }

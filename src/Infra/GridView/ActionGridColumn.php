@@ -2,6 +2,8 @@
 
 namespace App\Infra\GridView;
 
+use App\Domains\Client\ClientActions;
+use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 use Yii;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
@@ -28,11 +30,6 @@ class ActionGridColumn extends ActionColumn
      * @var User
      */
     private $user;
-
-    /**
-     * @var string
-     */
-    private $partialResource;
 
     /**
      * @inheritdoc
@@ -69,16 +66,8 @@ class ActionGridColumn extends ActionColumn
     private function createViewButton()
     {
         $this->buttons['view'] = function ($url, $model, $key) {
-
-            $options = array_merge([
-                'title' => 'Ver detalhes do registro',
-                'aria-label' => Yii::t('yii', 'View'),
-                'data-toggle' => 'tooltip',
-                'data-pjax' => '0',
-                'class' => 'btn btn-default btn-sm',
-            ], $this->buttonOptions);
-
-            return Html::a('<span class="glyphicon glyphicon-eye-open"></span> Ver', $url, $options);
+            $options = array_merge(ClientActions::view($model), $this->buttonOptions);
+            return ButtonCreator::build($options);
         };
     }
 
@@ -89,16 +78,8 @@ class ActionGridColumn extends ActionColumn
     private function createUpdateButton()
     {
         $this->buttons['update'] = function ($url, $model, $key) {
-
-            $options = array_merge([
-                'title' => Yii::t('yii', 'Update'),
-                'aria-label' => Yii::t('yii', 'Update'),
-                'data-toggle' => 'tooltip',
-                'data-pjax' => '0',
-                'class' => 'btn btn-default btn-sm'
-            ], $this->buttonOptions);
-
-            return Html::a('<span class="glyphicon glyphicon-pencil"></span> Editar', $url, $options);
+            $options = array_merge(ClientActions::update($model), $this->buttonOptions);
+            return ButtonCreator::build($options);
         };
     }
 
@@ -109,18 +90,8 @@ class ActionGridColumn extends ActionColumn
     private function createDeleteButton()
     {
         $this->buttons['delete'] = function ($url, $model, $key) {
-
-            $options = array_merge([
-                'title' => Yii::t('yii', 'Delete'),
-                'aria-label' => Yii::t('yii', 'Delete'),
-                'data-confirm' => 'Deseja realmente remover este registro?',
-                'data-toggle' => 'tooltip',
-                'data-method' => 'post',
-                'data-pjax' => '0',
-                'class' => 'btn btn-danger btn-sm'
-            ], $this->buttonOptions);
-
-            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+            $options = array_merge(ClientActions::delete($model), $this->buttonOptions);
+            return ButtonCreator::build($options);
         };
     }
 }

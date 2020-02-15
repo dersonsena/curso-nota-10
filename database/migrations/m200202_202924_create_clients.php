@@ -15,6 +15,7 @@ class m200202_202924_create_clients extends MigrationAbstract
         $this->createTableWith('clients', [
             'id' => $this->primaryKey(),
             'name' => $this->string(60)->notNull(),
+            'type' => $this->enum([1, 2])->notNull()->defaultValue(1),
             'cpf' => $this->string(11),
             'email' => $this->string(60),
             'phone_home' => $this->string(11),

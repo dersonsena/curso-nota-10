@@ -5,6 +5,7 @@ namespace App\Domains\Client;
 use App\Domains\Bill\Bill;
 use App\Infra\ActiveRecord\ActiveRecordAbstract;
 use App\Infra\ActiveRecord\Validators\CpfCnpjValidator;
+use App\Infra\ActiveRecord\Validators\RemoveSymbolsFilter;
 
 /**
  * This is the model class for table "{{%clients}}".
@@ -35,6 +36,21 @@ use App\Infra\ActiveRecord\Validators\CpfCnpjValidator;
 class Client extends ActiveRecordAbstract
 {
     /**
+     * @var string
+     */
+    const TYPE_INDIVIDUAL = 1;
+
+    /**
+     * @var string
+     */
+    const TYPE_COMPANY = 2;
+
+    /**
+     * @var int
+     */
+    public $type = 1;
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -48,15 +64,20 @@ class Client extends ActiveRecordAbstract
     public function rules()
     {
         return [
-            ['name', 'required'],
+            [['name', 'type'], 'required'],
             ['email', 'email'],
             [['status', 'deleted'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['name', 'email', 'address_street', 'address_neighborhood', 'address_complement'], 'string', 'max' => 60],
-            [['cpf', 'phone_home', 'phone_cell', 'phone_commercial'], 'string', 'max' => 11],
+            [['cpf', 'phone_home', 'phone_cell', 'phone_commercial'], 'string', 'max' => 15],
             [['address_number', 'address_zipcode'], 'string', 'max' => 10],
             [['created_by', 'updated_by', 'deleted_by'], 'string', 'max' => 100],
-            ['cpf', CpfCnpjValidator::class],
+            ['type', 'default', 'value' => static::TYPE_INDIVIDUAL],
+            ['cpf', CpfCnpjValidator::class, 'cpfType' => static::TYPE_INDIVIDUAL, 'cnpjType' => static::TYPE_COMPANY],
+            [
+                ['cpf', 'phone_home', 'phone_cell', 'phone_commercial', 'address_zipcode'],
+                RemoveSymbolsFilter::class
+            ],
         ];
     }
 
@@ -68,6 +89,7 @@ class Client extends ActiveRecordAbstract
         return $this->buildAttributeLabels([
             'name' => 'Nome',
             'cpf' => 'CPF',
+            'type' => 'Tipo',
             'email' => 'E-mail',
             'phone_home' => 'Telefone Res.',
             'phone_cell' => 'Celular',
@@ -86,5 +108,25 @@ class Client extends ActiveRecordAbstract
     public function getBills()
     {
         return $this->hasMany(Bill::class, ['client_id' => 'id']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getEntityDescription(bool $singularize = false): string
+    {
+        return ($singularize === true ? 'Cliente' : 'Clientes');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullAddress(): string
+    {
+        return (!empty($this->address_street) ? $this->address_street . ', ' : '')
+            . (!empty($this->address_number) ? $this->address_number . ' - ' : '')
+            . (!empty($this->address_neighborhood) ? $this->address_neighborhood . ' - ' : '')
+            . (!empty($this->address_complement) ? $this->address_complement : '') . ' - '
+            . (!empty($this->address_zipcode) ? 'CEP: ' . $this->address_zipcode : '');
     }
 }

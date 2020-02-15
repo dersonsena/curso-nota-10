@@ -139,16 +139,6 @@ class Formatter extends YiiFormatter
     }
 
     /**
-     * Remove todos os caracteres não numéricos.
-     * @param $string O valor a ser formatado.
-     * @return mixed O valor somente com caracteres numéricos.
-     */
-    public static function removeCharactersNonNumeric($string)
-    {
-        return preg_replace('/[^0-9]/', '', $string);
-    }
-
-    /**
      * Método que formata um valor para o formato CEP.
      * @param string $string O valor a ser formatado.
      * @return string O valor formatado para CEP.

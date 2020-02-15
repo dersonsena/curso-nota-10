@@ -140,4 +140,12 @@ class Bill extends ActiveRecordAbstract
     {
         return static::getTypeAsText()[$this->type];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getEntityDescription(bool $singularize = false): string
+    {
+        return ($singularize === true ? 'Conta' : 'Contas');
+    }
 }

@@ -14,6 +14,18 @@ abstract class ActiveRecordAbstract extends ActiveRecord
 {
     use AttributeLabels, AttributeNames;
 
+    /**
+     * @param bool $singularize
+     * @return string
+     */
+    abstract public static function getEntityDescription(bool $singularize = false): string;
+
+    public function init()
+    {
+        $this->loadDefaultValues();
+        return parent::init();
+    }
+
     public static function find()
     {
         $query = parent::find();
@@ -51,30 +63,29 @@ abstract class ActiveRecordAbstract extends ActiveRecord
             ],
             [
                 'class' => SoftDeleteBehavior::class,
-                'softDeleteAttributeValues' => [$this->deletedAttribute => true],
+                'softDeleteAttributeValues' => [
+                    $this->deletedAttribute => true
+                ],
             ],
         ]);
     }
 
     /**
-     * Generate the active record formatted errors
-     * @return array
+     * @return string
      */
-    public function getFormattedErrors(): array
+    public function getErrorsToHTMLList(): string
     {
-        if (empty($this->errors)) {
-            return [];
+        $errors = $this->getErrors();
+        $output = '<ul style="padding: 9px 0 0 16px;">';
+
+        foreach ($errors as $listErrors) {
+            foreach ($listErrors as $error) {
+                $output .= '<li>'. $error .'</li>';
+            }
         }
 
-        $formattedErrors = [];
+        $output .= '</ul>';
 
-        foreach ($this->errors as $columnName => $errorList) {
-            $formattedErrors[] = [
-                'field' => $columnName,
-                'message' => $errorList[0]
-            ];
-        }
-
-        return $formattedErrors;
+        return $output;
     }
 }

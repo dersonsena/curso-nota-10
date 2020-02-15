@@ -126,4 +126,12 @@ class User extends ActiveRecordAbstract implements IdentityInterface
     {
         return $authKey === $this->auth_key;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getEntityDescription(bool $singularize = false): string
+    {
+        return ($singularize === true ? 'Usuário' : 'Usuários');
+    }
 }

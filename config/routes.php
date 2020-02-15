@@ -21,15 +21,15 @@ return [
 
         '/clients' => 'clients/index',
         '/clients/create' => 'clients/create',
-        '/clients/update/{id}' => 'clients/update',
-        '/clients/view/{id}' => 'clients/view',
-        '/clients/delete/{id}' => 'clients/delete',
+        '/clients/update/<id:\d+>' => 'clients/update',
+        '/clients/view/<id:\d+>' => 'clients/view',
+        '/clients/delete/<id:\d+>' => 'clients/delete',
 
         '/bills' => 'bills/index',
         '/bills/create' => 'bills/create',
-        '/bills/update/{id}' => 'bills/update',
-        '/bills/view/{id}' => 'bills/view',
-        '/clients/cancel/{id}' => 'clients/cancel',
+        '/bills/update/<id:\d+>' => 'bills/update',
+        '/bills/view/<id:\d+>' => 'bills/view',
+        '/clients/cancel/<id:\d+>' => 'clients/cancel',
 
         // To create a standalone route with more configurations:
         /*[

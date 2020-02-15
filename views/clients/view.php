@@ -1,15 +1,14 @@
 <?php
-
+/* @var yii\web\View $this  */
+/* @var App\Domains\Client\Client $model */
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\web\YiiAsset;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Bill */
-
-$this->title = $model->description;
-$this->params['breadcrumbs'][] = ['label' => 'Contas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => $this->context->controllerDescription, 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->context->viewDescription . ': ' . $this->title;
+YiiAsset::register($this);
 ?>
 <div class="bill-view">
 
@@ -30,24 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'name',
+            'email',
+            'cpf:cpf',
+            'phone_home:phoneDDD',
+            'phone_cell:phoneDDD',
             [
-                'attribute' => 'category_id',
-                'value' => $model->category->name
+                'attribute' => 'address_street',
+                'value' => $model->getFullAddress()
             ],
             [
-                'attribute' => 'type',
-                'value' => $model->getTypeText()
-            ],
-            'date:date',
-            'description',
-            'amount:currency',
-            [
-                'attribute' => 'type',
-                'value' => $model->getStatusText()
+                'attribute' => 'status',
+                'value' => $model->status === 1 ? 'Ativo' : 'Inativo'
             ],
             'created_at:date',
             'updated_at:date',
         ],
     ]) ?>
-
 </div>

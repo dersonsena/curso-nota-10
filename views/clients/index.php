@@ -2,9 +2,10 @@
 /* @var $this yii\web\View */
 /* @var $searchModel \App\Domains\Client\ClientSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+use App\Domains\Client\ClientActions;
 use App\Infra\GridView\ActionGridColumn;
 use App\Infra\GridView\LinkDataColumn;
+use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -15,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Novo cliente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= ButtonCreator::build(ClientActions::create($searchModel)) ?>
+        <?= ButtonCreator::build(ClientActions::import($searchModel)) ?>
     </p>
 
     <?= GridView::widget([

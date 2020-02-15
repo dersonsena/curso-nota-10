@@ -2,7 +2,6 @@
 
 namespace App\Infra\ActiveRecord\Validators;
 
-use GoSale\YiiCore\Helper\Utils;
 use yii\validators\Validator;
 
 class CpfCnpjValidator extends Validator
@@ -15,12 +14,12 @@ class CpfCnpjValidator extends Validator
     /**
      * @var int
      */
-    public $cpfValue = 1;
+    public $cpfType = 1;
 
     /**
      * @var int
      */
-    public $cnpjValue = 2;
+    public $cnpjType = 2;
 
     /**
      * @inheritDoc
@@ -49,7 +48,7 @@ class CpfCnpjValidator extends Validator
         }
 
         $type = $model->{$this->typeAttribute};
-        $value = Utils::transliterate($model->{$attribute});
+        $value = preg_replace("/[^a-zA-Z0-9]/", "", $model->{$attribute});
 
         if ($this->isCpf($type) && strlen($value) !== 11) {
             $this->addError($model, $attribute, "CPF deve conter exatamente 11 caracteres", []);
@@ -84,7 +83,7 @@ class CpfCnpjValidator extends Validator
      */
     private function isCpf($value): bool
     {
-        return $value === $this->cpfValue;
+        return $value === $this->cpfType;
     }
 
     /**
@@ -93,7 +92,7 @@ class CpfCnpjValidator extends Validator
      */
     private function isCnpj($value): bool
     {
-        return $value === $this->cnpjValue;
+        return $value === $this->cnpjType;
     }
 
     /**
