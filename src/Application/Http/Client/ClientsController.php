@@ -8,6 +8,13 @@ use App\Infra\Repository\Client\ClientRepository;
 
 class ClientsController extends CRUDController
 {
+    public function actions()
+    {
+        return [
+            'import' => ImportAction::class
+        ];
+    }
+
     /**
      * @inheritDoc
      */

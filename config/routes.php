@@ -24,6 +24,7 @@ return [
         '/clients/update/<id:\d+>' => 'clients/update',
         '/clients/view/<id:\d+>' => 'clients/view',
         '/clients/delete/<id:\d+>' => 'clients/delete',
+        '/clients/import' => 'clients/import',
 
         '/bills' => 'bills/index',
         '/bills/create' => 'bills/create',
@@ -36,16 +37,6 @@ return [
             'pattern' => 'pattern/to/your/route',
             'route' => 'controller-id/action-id',
             'verb' => ['GET']
-        ]*/
-
-        // To create a Active route (Active Controller):
-        /*[
-            'class' => 'yii\rest\UrlRule',
-            'controller' => 'controller-id',
-            //'pluralize' => true,
-            'extraPatterns' => [
-                'GET test' => 'test',
-            ],
         ]*/
     ]
 ];

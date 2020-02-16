@@ -2,9 +2,9 @@
 
 namespace App\Application\Controller;
 
-use App\Infra\Repository\RepositoryAbstract;
 use Yii;
 use Exception;
+use App\Infra\Repository\RepositoryAbstract;
 use App\Application\Controller\Actions\Create;
 use App\Application\Controller\Actions\Delete;
 use App\Application\Controller\Actions\Index;

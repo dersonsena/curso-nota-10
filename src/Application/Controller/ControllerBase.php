@@ -48,4 +48,14 @@ abstract class ControllerBase extends Controller
     {
         return $this->actionDescription;
     }
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setActionDescription(string $description)
+    {
+        $this->actionDescription = $description;
+        return $this;
+    }
 }

@@ -29,4 +29,19 @@ class ClientActions extends ActionsAbstract
             ])
         ];
     }
+
+    public static function importSubmit(array $options = []): array
+    {
+        $htmlOptions = ($options['htmlOptions'] ?? []);
+
+        return [
+            'type' => ButtonCreator::TYPE_SUBMIT,
+            'text' => 'Importar AGORA!',
+            'icon' => 'glyphicon glyphicon-save-file',
+            'htmlOptions' => array_merge($htmlOptions, [
+                'class' => 'btn btn-primary',
+                'name' => 'import-action'
+            ])
+        ];
+    }
 }

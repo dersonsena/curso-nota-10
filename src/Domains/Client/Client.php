@@ -69,7 +69,7 @@ class Client extends ActiveRecordAbstract
             [['status', 'deleted'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['name', 'email', 'address_street', 'address_neighborhood', 'address_complement'], 'string', 'max' => 60],
-            [['cpf', 'phone_home', 'phone_cell', 'phone_commercial'], 'string', 'max' => 15],
+            [['cpf', 'phone_home', 'phone_cell', 'phone_commercial'], 'string', 'max' => 17],
             [['address_number', 'address_zipcode'], 'string', 'max' => 10],
             [['created_by', 'updated_by', 'deleted_by'], 'string', 'max' => 100],
             ['type', 'default', 'value' => static::TYPE_INDIVIDUAL],
@@ -78,6 +78,13 @@ class Client extends ActiveRecordAbstract
                 ['cpf', 'phone_home', 'phone_cell', 'phone_commercial', 'address_zipcode'],
                 RemoveSymbolsFilter::class
             ],
+            [
+                [
+                    'name', 'email', 'cpf', 'phone_home', 'phone_cell', 'address_street', 'address_neighborhood',
+                    'address_complement', 'address_number', 'address_zipcode'
+                ],
+                'trim'
+            ]
         ];
     }
 
