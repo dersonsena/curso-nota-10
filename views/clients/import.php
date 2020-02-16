@@ -27,6 +27,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="row">
             <div class="col-md-6">
+                <?= Html::a(
+                    '<i class="glyphicon glyphicon-download-alt"></i> Baixar modelo CSV',
+                    '@web/files/template-clients.csv',
+                    [
+                        'title' => 'Baixar arquivo modelo de importação',
+                        'target' => '_blank'
+                    ])
+                ?>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
                 <?= ButtonCreator::build(ClientActions::importSubmit()) ?>
             </div>
         </div>
