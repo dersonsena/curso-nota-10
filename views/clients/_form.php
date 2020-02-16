@@ -2,7 +2,8 @@
 /* @var $this yii\web\View */
 /* @var $model \App\Domains\Client\Client */
 /* @var $form yii\widgets\ActiveForm */
-use yii\helpers\Html;
+use App\Domains\Client\ClientActions;
+use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 ?>
@@ -79,7 +80,8 @@ use yii\widgets\MaskedInput;
         </div>
 
         <div class="form-group">
-            <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>
+            <?= ButtonCreator::build(ClientActions::back($model)) ?>
+            <?= ButtonCreator::build(ClientActions::save($model)) ?>
         </div>
     <?php ActiveForm::end(); ?>
 </div>

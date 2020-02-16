@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller;
 
+use App\Infra\Repository\RepositoryAbstract;
 use Yii;
 use Exception;
 use App\Application\Controller\Actions\Create;
@@ -27,6 +28,11 @@ abstract class CRUDController extends ControllerBase
     private $modelSearch;
 
     /**
+     * @var RepositoryAbstract
+     */
+    private $repository;
+
+    /**
      * @return ActiveRecordAbstract
      */
     abstract public function getModelName(): string;
@@ -34,14 +40,18 @@ abstract class CRUDController extends ControllerBase
     /**
      * @return ActiveRecordAbstract
      */
-    abstract public function getModelSearchName(): string;
+    abstract public function getRepositoryName(): string;
 
     public function init()
     {
         parent::init();
 
         $this->model = Yii::$container->get($this->getModelName());
-        $this->modelSearch = Yii::$container->get($this->getModelSearchName());
+        $this->repository = Yii::$container->get($this->getRepositoryName());
+
+        if (class_exists($this->getModelName() . 'Search')) {
+            $this->modelSearch = Yii::$container->get($this->getModelName() . 'Search');
+        }
 
         $this->controllerDescription = $this->model::getEntityDescription();
     }
@@ -60,6 +70,14 @@ abstract class CRUDController extends ControllerBase
     protected function getModelSearch(): ActiveRecordAbstract
     {
         return $this->modelSearch;
+    }
+
+    /**
+     * @return RepositoryAbstract
+     */
+    protected function getRepository(): RepositoryAbstract
+    {
+        return $this->repository;
     }
 
     /**

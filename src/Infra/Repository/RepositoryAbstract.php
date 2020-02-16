@@ -2,28 +2,42 @@
 
 namespace App\Infra\Repository;
 
-use App\Application\ActiveRecord\ActiveRecordAbstract;
-use yii\db\Exception;
+use Yii;
+use App\Infra\ActiveRecord\ActiveRecordAbstract;
 
 abstract class RepositoryAbstract
 {
-    /**
-     * @var string
-     */
-    protected $modelClass;
-
     /**
      * @var ActiveRecordAbstract
      */
     protected $model;
 
+    /**
+     * @return string
+     */
+    abstract public function getEntityName(): string;
+
     public function __construct()
     {
-        if (empty($this->modelClass)) {
-            throw new Exception('The "$modelClass" attribute is required.');
-        }
+        $this->model = Yii::$container->get($this->getEntityName());
+    }
 
-        $this->model = new $this->modelClass;
+    /**
+     * @return ActiveRecordAbstract
+     */
+    public function getEntity(): ActiveRecordAbstract
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param ActiveRecordAbstract $entity
+     * @return RepositoryAbstract
+     */
+    public function setEntity(ActiveRecordAbstract $entity)
+    {
+        $this->model = $entity;
+        return $this;
     }
 
     /**
@@ -41,13 +55,5 @@ abstract class RepositoryAbstract
     public function findOne($condition)
     {
         return $this->model::findOne($condition);
-    }
-
-    /**
-     * @return ActiveRecordAbstract
-     */
-    public function getEntity(): ActiveRecordAbstract
-    {
-        return $this->model;
     }
 }

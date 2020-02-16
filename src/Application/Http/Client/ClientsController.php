@@ -2,9 +2,9 @@
 
 namespace App\Application\Http\Client;
 
-use App\Application\Controller\CRUDController;
 use App\Domains\Client\Client;
-use App\Domains\Client\ClientSearch;
+use App\Application\Controller\CRUDController;
+use App\Infra\Repository\Client\ClientRepository;
 
 class ClientsController extends CRUDController
 {
@@ -19,8 +19,8 @@ class ClientsController extends CRUDController
     /**
      * @inheritDoc
      */
-    public function getModelSearchName(): string
+    public function getRepositoryName(): string
     {
-        return ClientSearch::class;
+        return ClientRepository::class;
     }
 }

@@ -78,7 +78,7 @@ class ActionGridColumn extends ActionColumn
     private function createUpdateButton()
     {
         $this->buttons['update'] = function ($url, $model, $key) {
-            $options = array_merge(ClientActions::update($model), $this->buttonOptions);
+            $options = array_merge(ClientActions::updateOnGrid($model), $this->buttonOptions);
             return ButtonCreator::build($options);
         };
     }
@@ -90,7 +90,7 @@ class ActionGridColumn extends ActionColumn
     private function createDeleteButton()
     {
         $this->buttons['delete'] = function ($url, $model, $key) {
-            $options = array_merge(ClientActions::delete($model), $this->buttonOptions);
+            $options = array_merge(ClientActions::deleteOnGrid($model), $this->buttonOptions);
             return ButtonCreator::build($options);
         };
     }

@@ -19,6 +19,11 @@ class ButtonCreator
     /**
      * @var string
      */
+    const TYPE_SUBMIT = 'submit';
+
+    /**
+     * @var string
+     */
     const SIZE_LARGE = 'btn-lg';
 
     /**
@@ -80,7 +85,7 @@ class ButtonCreator
             return static::renderLink($button, $params);
         }
 
-        if ($button->getType() === static::TYPE_BUTTON) {
+        if (in_array($button->getType(), [static::TYPE_BUTTON, static::TYPE_SUBMIT])) {
             return static::renderButton($button, $params);
         }
 
@@ -108,7 +113,15 @@ class ButtonCreator
      */
     private static function renderButton(ButtonCreator $button, array $params): string
     {
-        return '';
+        $icon = (isset($params['icon']) ? Html::tag('i', '', ['class' => $params['icon']]) . ' ' : '');
+        $text = ($button->isOnlyIcon() ? $icon : $icon . ' ' . $params['text']);
+        $params['htmlOptions']['class'] .= ' ' . $button->size;
+
+        if ($button->getType() === ButtonCreator::TYPE_BUTTON) {
+            return Html::button($text, $params['htmlOptions']);
+        }
+
+        return Html::submitButton($text, $params['htmlOptions']);
     }
 
     /**

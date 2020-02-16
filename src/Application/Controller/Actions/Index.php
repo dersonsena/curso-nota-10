@@ -3,6 +3,8 @@
 namespace App\Application\Controller\Actions;
 
 use Yii;
+use App\Infra\ActiveRecord\ActiveRecordAbstract;
+use App\Infra\Repository\RepositoryAbstract;
 
 trait Index
 {
@@ -18,10 +20,18 @@ trait Index
     public function actionIndex()
     {
         $this->actionDescription = $this->indexDescription;
-        $dataProvider = $this->getModelSearch()->search(Yii::$app->getRequest()->getQueryParams());
+
+        /** @var ActiveRecordAbstract $searchModel */
+        $searchModel = $this->getModelSearch();
+
+        /** @var RepositoryAbstract $repository */
+        $repository = $this->getRepository();
+        $repository->setEntity($searchModel);
+
+        $dataProvider = $repository->search(Yii::$app->getRequest()->getQueryParams());
 
         return $this->render('index', [
-            'searchModel' => $this->getModelSearch(),
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

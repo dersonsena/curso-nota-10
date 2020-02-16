@@ -1,6 +1,8 @@
 <?php
 /* @var yii\web\View $this  */
 /* @var App\Domains\Client\Client $model */
+use App\Domains\Client\ClientActions;
+use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\web\YiiAsset;
@@ -15,14 +17,8 @@ YiiAsset::register($this);
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Atualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= ButtonCreator::build(ClientActions::updateOnView($model)) ?>
+        <?= ButtonCreator::build(ClientActions::deleteOnView($model)) ?>
     </p>
 
     <?= DetailView::widget([

@@ -37,31 +37,6 @@ abstract class ActionsAbstract
      * @param array $options
      * @return array
      */
-    public static function update(ActiveRecordAbstract $model, array $options = []): array
-    {
-        $htmlOptions = ($options['htmlOptions'] ?? []);
-
-        return [
-            'to' => [static::getPath() . '/update/' . $model->id],
-            'type' => ButtonCreator::TYPE_LINK,
-            'text' => 'Editar',
-            'size' => ButtonCreator::SIZE_LITTLE,
-            'icon' => 'glyphicon glyphicon-pencil',
-            'htmlOptions' => array_merge($htmlOptions, [
-                'class' => 'btn btn-default',
-                'title' => 'Atualizar registro',
-                'aria-label' => 'Atualizar registro',
-                'data-toggle' => 'tooltip',
-                'data-pjax' => '0',
-            ])
-        ];
-    }
-
-    /**
-     * @param ActiveRecordAbstract $model
-     * @param array $options
-     * @return array
-     */
     public static function view(ActiveRecordAbstract $model, array $options = []): array
     {
         $htmlOptions = ($options['htmlOptions'] ?? []);
@@ -87,13 +62,52 @@ abstract class ActionsAbstract
      * @param array $options
      * @return array
      */
-    public static function delete(ActiveRecordAbstract $model, array $options = []): array
+    public static function updateOnGrid(ActiveRecordAbstract $model, array $options = []): array
+    {
+        $htmlOptions = ($options['htmlOptions'] ?? []);
+
+        return [
+            'to' => [static::getPath() . '/update/' . $model->id],
+            'type' => ButtonCreator::TYPE_LINK,
+            'text' => 'Editar',
+            'size' => ButtonCreator::SIZE_LITTLE,
+            'icon' => 'glyphicon glyphicon-pencil',
+            'htmlOptions' => array_merge($htmlOptions, [
+                'class' => 'btn btn-info',
+                'title' => 'Atualizar registro',
+                'aria-label' => 'Atualizar registro',
+                'data-toggle' => 'tooltip',
+                'data-pjax' => '0',
+            ])
+        ];
+    }
+
+    /**
+     * @param ActiveRecordAbstract $model
+     * @param array $options
+     * @return array
+     */
+    public static function updateOnView(ActiveRecordAbstract $model, array $options = []): array
+    {
+        $updateGrid = static::updateOnGrid($model, $options);
+        $updateGrid['size'] = ButtonCreator::SIZE_NORMAL;
+
+        return $updateGrid;
+    }
+
+    /**
+     * @param ActiveRecordAbstract $model
+     * @param array $options
+     * @return array
+     */
+    public static function deleteOnGrid(ActiveRecordAbstract $model, array $options = []): array
     {
         $htmlOptions = ($options['htmlOptions'] ?? []);
 
         return [
             'to' => [static::getPath() . '/delete/' . $model->id],
             'type' => ButtonCreator::TYPE_LINK,
+            'text' => 'Deletar',
             'onlyIcon' => true,
             'size' => ButtonCreator::SIZE_LITTLE,
             'icon' => 'glyphicon glyphicon-trash',
@@ -104,6 +118,60 @@ abstract class ActionsAbstract
                 'data-toggle' => 'tooltip',
                 'data-method' => 'post',
                 'data-pjax' => '0',
+            ])
+        ];
+    }
+
+    /**
+     * @param ActiveRecordAbstract $model
+     * @param array $options
+     * @return array
+     */
+    public static function deleteOnView(ActiveRecordAbstract $model, array $options = []): array
+    {
+        $deleteGrid = static::deleteOnGrid($model, $options);
+        $deleteGrid['size'] = ButtonCreator::SIZE_NORMAL;
+        $deleteGrid['onlyIcon'] = false;
+
+        return $deleteGrid;
+    }
+
+    /**
+     * @param ActiveRecordAbstract $model
+     * @param array $options
+     * @return array
+     */
+    public static function back(ActiveRecordAbstract $model, array $options = []): array
+    {
+        $htmlOptions = ($options['htmlOptions'] ?? []);
+
+        return [
+            'to' => [static::getPath() . '/index'],
+            'type' => ButtonCreator::TYPE_LINK,
+            'text' => 'Voltar',
+            'icon' => 'glyphicon glyphicon-chevron-left',
+            'htmlOptions' => array_merge($htmlOptions, [
+                'class' => 'btn btn-default'
+            ])
+        ];
+    }
+
+    /**
+     * @param ActiveRecordAbstract $model
+     * @param array $options
+     * @return array
+     */
+    public static function save(ActiveRecordAbstract $model, array $options = []): array
+    {
+        $htmlOptions = ($options['htmlOptions'] ?? []);
+
+        return [
+            'to' => [static::getPath()],
+            'type' => ButtonCreator::TYPE_SUBMIT,
+            'text' => ($model->getIsNewRecord() ? 'Adicionar' : 'Atualizar'),
+            'icon' => 'glyphicon glyphicon-floppy-disk',
+            'htmlOptions' => array_merge($htmlOptions, [
+                'class' => 'btn btn-primary'
             ])
         ];
     }
