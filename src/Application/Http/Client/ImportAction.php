@@ -30,6 +30,8 @@ class ImportAction extends Action
                 return $this->controller->refresh();
             }
 
+            $transaction = Yii::$app->getDb()->beginTransaction();
+
             foreach ($importForm->getData() as $i => $row) {
                 $lineNumber = $i + 1;
                 $client = new Client();
@@ -40,11 +42,14 @@ class ImportAction extends Action
 
                 if (!$client->save()) {
                     Yii::$app->getSession()->addFlash('error', 'Erro ao inserir cliente da linha ' . $lineNumber . $client->getErrorsToHTMLList());
+                    $transaction->rollBack();
                     return $this->controller->refresh();
                 }
             }
 
-            Yii::$app->getSession()->addFlash('success', 'Clientes importados com sucesso para o sistema.');
+            $transaction->commit();
+
+            Yii::$app->getSession()->addFlash('success', "Foram importado(s) {$importForm->count()} cliente(s) com sucesso no sistema.");
             return $this->controller->redirect(['index']);
         }
 

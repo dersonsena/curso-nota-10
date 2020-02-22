@@ -74,6 +74,7 @@ class Client extends ActiveRecordAbstract
             [['created_by', 'updated_by', 'deleted_by'], 'string', 'max' => 100],
             ['type', 'default', 'value' => static::TYPE_INDIVIDUAL],
             ['cpf', CpfCnpjValidator::class, 'cpfType' => static::TYPE_INDIVIDUAL, 'cnpjType' => static::TYPE_COMPANY],
+            ['cpf', 'unique'],
             [
                 ['cpf', 'phone_home', 'phone_cell', 'phone_commercial', 'address_zipcode'],
                 RemoveSymbolsFilter::class

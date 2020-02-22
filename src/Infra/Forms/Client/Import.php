@@ -60,6 +60,14 @@ class Import extends Model
         return $this->data;
     }
 
+    /**
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->data);
+    }
+
     public function upload()
     {
         $tmpPath = Yii::getAlias('@runtime/tmp');
