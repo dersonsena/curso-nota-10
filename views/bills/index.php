@@ -2,6 +2,8 @@
 /* @var $this yii\web\View */
 /* @var $searchModel \App\Domains\Bill\BillSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
+use App\Domains\Bill\Bill;
 use App\Domains\Bill\BillActions;
 use App\Infra\GridView\ActionGridColumn;
 use App\Infra\GridView\LinkDataColumn;
@@ -30,21 +32,31 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 120px'],
                 'contentOptions' => ['class' => 'text-center'],
+                'content' => function (Bill $bill) {
+                    return $bill->getStatusAsLabel();
+                }
             ],
             [
                 'attribute' => 'description',
                 'class' => LinkDataColumn::class
             ],
             [
+                'attribute' => 'client_id',
+                'headerOptions' => ['style' => 'width: 180px'],
+                'content' => function (Bill $bill) {
+                    return $bill->client->name;
+                }
+            ],
+            [
                 'attribute' => 'due_date',
                 'format' => 'date',
-                'headerOptions' => ['class' => 'text-center', 'style' => 'width: 150px'],
+                'headerOptions' => ['class' => 'text-center', 'style' => 'width: 130px'],
                 'contentOptions' => ['class' => 'text-center'],
             ],
             [
                 'attribute' => 'amount',
                 'format' => 'currency',
-                'headerOptions' => ['style' => 'width: 150px', 'class' => 'text-right'],
+                'headerOptions' => ['style' => 'width: 130px', 'class' => 'text-right'],
                 'contentOptions' => ['class' => 'text-right'],
             ],
             ['class' => ActionGridColumn::class]

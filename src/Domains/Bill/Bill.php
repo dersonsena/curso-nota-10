@@ -17,6 +17,7 @@ use Yii;
  * @property string $description
  * @property string $due_date
  * @property string $amount
+ * @property integer $parcel_number
  * @property string $observations
  * @property string $payment_date
  * @property string $payment_user
@@ -56,7 +57,7 @@ class Bill extends ActiveRecordAbstract
     {
         return [
             [['client_id', 'description', 'due_date', 'amount', 'status'], 'required'],
-            [['client_id', 'bill_parent_id'], 'integer'],
+            [['client_id', 'bill_parent_id', 'parcel_number'], 'integer'],
             [['type', 'status', 'observations', 'cancellation_reason'], 'string'],
             [
                 [
@@ -99,13 +100,14 @@ class Bill extends ActiveRecordAbstract
     public function attributeLabels()
     {
         return $this->buildAttributeLabels([
-            'client_id' => 'Cliente',
+            'client_id' => 'Titular',
             'bill_parent_id' => 'Conta Pai',
             'type' => 'Tipo',
             'status' => 'Status',
             'description' => 'Descrição',
             'due_date' => 'Data Vencimento',
             'amount' => 'Valor',
+            'parcel_number' => 'Nº Parcela',
             'observations' => 'Observações',
             'payment_date' => 'Data Pagamento',
             'payment_user' => 'Usuário da Baixa',
@@ -167,7 +169,32 @@ class Bill extends ActiveRecordAbstract
 
     public function getTypeAsText(): string
     {
-        return static::getTypeAsText()[$this->type];
+        return static::getTypesList()[$this->type];
+    }
+
+    public function getStatusAsLabel(): string
+    {
+        $cssClass = '';
+        $icon = '';
+
+        switch ($this->status) {
+            case static::STATUS_OPEN:
+                $cssClass = 'warning';
+                $icon = 'glyphicon glyphicon-warning-sign';
+                break;
+            case static::STATUS_RECEIVED:
+                $cssClass = 'success';
+                $icon = 'glyphicon glyphicon-ok';
+                break;
+            case static::STATUS_CANCELLED:
+                $cssClass = 'danger';
+                $icon = 'glyphicon glyphicon-remove';
+                break;
+        }
+
+        return '<span style="font-size: 12px" class="label label-'. $cssClass .'">
+            <i class="'. $icon .'"></i> '. $this->getStatusAsText() .
+        '</span>';
     }
 
     /**

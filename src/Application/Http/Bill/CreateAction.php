@@ -92,18 +92,21 @@ class CreateAction extends Action
             /** @var Bill $bill */
             $bill = Yii::$container->get(Bill::class);
             $bill->setAttributes($parentBill->getAttributes());
+            $parcelNumber = ($i + 2);
 
             $bill->due_date = (new DateTime($parentBill->due_date))
                 ->modify('+' . ($i + 1) . ' month')
                 ->format('d/m/Y');
 
+            $bill->parcel_number = $parcelNumber;
             $bill->bill_parent_id = $parentBill->id;
-            $bill->description .= ' ' . ($i + 2) . "/{$totalBills}";
+            $bill->description .= " {$parcelNumber}/{$totalBills}";
             $bill->observations = 'Essa conta é referente a conta ' . $parentBill->id;
 
             $this->controller->getRepository()->save($bill);
         }
 
+        $parentBill->parcel_number .= 1;
         $parentBill->description .= " 1/{$totalBills}";
         $this->controller->getRepository()->save($parentBill);
 

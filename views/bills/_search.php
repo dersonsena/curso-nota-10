@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
-<?php $form = ActiveForm::begin(['validateOnBlur' => false]) ?>
+<?php $form = ActiveForm::begin(['method' => 'get', 'validateOnBlur' => false]) ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">

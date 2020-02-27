@@ -2,6 +2,7 @@
 
 namespace App\Domains\Bill;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 
 class BillSearch extends Bill
