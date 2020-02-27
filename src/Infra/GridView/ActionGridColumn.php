@@ -3,6 +3,7 @@
 namespace App\Infra\GridView;
 
 use App\Domains\Client\ClientActions;
+use App\Infra\DomainActions\ActionsAbstract;
 use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 use Yii;
 use yii\grid\ActionColumn;
@@ -25,6 +26,11 @@ class ActionGridColumn extends ActionColumn
      * @inheritdoc
      */
     public $contentOptions = ['class' => 'text-center'];
+
+    /**
+     * @var ActionsAbstract
+     */
+    public $domainActions;
 
     /**
      * @var User
@@ -66,7 +72,7 @@ class ActionGridColumn extends ActionColumn
     private function createViewButton()
     {
         $this->buttons['view'] = function ($url, $model, $key) {
-            $options = array_merge(ClientActions::view($model), $this->buttonOptions);
+            $options = array_merge($this->domainActions::view($model), $this->buttonOptions);
             return ButtonCreator::build($options);
         };
     }
@@ -78,7 +84,7 @@ class ActionGridColumn extends ActionColumn
     private function createUpdateButton()
     {
         $this->buttons['update'] = function ($url, $model, $key) {
-            $options = array_merge(ClientActions::updateOnGrid($model), $this->buttonOptions);
+            $options = array_merge($this->domainActions::updateOnGrid($model), $this->buttonOptions);
             return ButtonCreator::build($options);
         };
     }
@@ -90,7 +96,7 @@ class ActionGridColumn extends ActionColumn
     private function createDeleteButton()
     {
         $this->buttons['delete'] = function ($url, $model, $key) {
-            $options = array_merge(ClientActions::deleteOnGrid($model), $this->buttonOptions);
+            $options = array_merge($this->domainActions::deleteOnGrid($model), $this->buttonOptions);
             return ButtonCreator::build($options);
         };
     }

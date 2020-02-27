@@ -59,7 +59,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'width: 130px', 'class' => 'text-right'],
                 'contentOptions' => ['class' => 'text-right'],
             ],
-            ['class' => ActionGridColumn::class]
+            [
+                'class' => ActionGridColumn::class,
+                'domainActions' => BillActions::class
+            ]
         ],
     ]) ?>
 </div>

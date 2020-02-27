@@ -38,7 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 190px'],
                 'contentOptions' => ['class' => 'text-center'],
             ],
-            ['class' => ActionGridColumn::class]
+            [
+                'class' => ActionGridColumn::class,
+                'domainActions' => ClientActions::class
+            ]
         ],
     ]) ?>
 </div>
