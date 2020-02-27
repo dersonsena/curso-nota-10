@@ -3,6 +3,7 @@
 namespace App\Application\Controller\Actions;
 
 use App\Infra\ActiveRecord\ActiveRecordAbstract;
+use Exception;
 use Yii;
 
 trait Create
@@ -28,7 +29,15 @@ trait Create
         $post = Yii::$app->getRequest()->post();
 
         if ($model->load($post) && $model->validate()) {
-            return $this->saveFormData();
+            try {
+                $this->saveFormData();
+
+                Yii::$app->getSession()->setFlash('success', 'Seus dados cadastrados com sucesso!');
+                return $this->redirect(['index']);
+            } catch (Exception $e) {
+                Yii::$app->getSession()->setFlash('error', $e->getMessage());
+                return $this->redirect([$this->action->id]);
+            }
         }
 
         return $this->render('create', [

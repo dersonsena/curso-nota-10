@@ -56,4 +56,13 @@ abstract class RepositoryAbstract
     {
         return $this->model::findOne($condition);
     }
+
+    /**
+     * @param ActiveRecordAbstract $entity
+     * @return bool
+     */
+    public function save(ActiveRecordAbstract $entity)
+    {
+        return $entity->save();
+    }
 }

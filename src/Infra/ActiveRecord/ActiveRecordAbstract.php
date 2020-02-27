@@ -88,4 +88,31 @@ abstract class ActiveRecordAbstract extends ActiveRecord
 
         return $output;
     }
+
+    /**
+     * @param string $labelColumn
+     * @param string $keyColumn
+     * @param string $order
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
+     */
+    public static function dropdownOptions(string $labelColumn, string $keyColumn = 'id', $order = null)
+    {
+        $model = Yii::$container->get(static::class);
+
+        $query = $model::find()
+            ->select([$labelColumn, $keyColumn])
+            ->orderBy(!is_null($order) ? $order : $labelColumn . ' ASC');
+
+        if (array_key_exists('status', $model->attributes)) {
+            $query->andWhere(['status' => 1]);
+        }
+
+        if (array_key_exists('deleted', $model->attributes)) {
+            $query->andWhere(['deleted' => 0]);
+        }
+
+        return ArrayHelper::map($query->all(), $keyColumn, $labelColumn);
+    }
 }

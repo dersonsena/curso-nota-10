@@ -51,10 +51,12 @@ trait AttributeLabels
     protected function buildAttributeLabels(array $specificAttributes): array
     {
         return array_merge(
-            ['id' => $this->idLabel],
+            [
+                'id' => $this->idLabel,
+                'status' => $this->statusLabel
+            ],
             $specificAttributes,
             [
-                'status' => $this->statusLabel,
                 'created_at' => $this->createdAtLabel,
                 'updated_at' => $this->updateAtLabel,
                 'deleted_at' => $this->deletedAtLabel,

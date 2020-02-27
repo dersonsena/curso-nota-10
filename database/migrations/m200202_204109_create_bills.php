@@ -18,7 +18,6 @@ class m200202_204109_create_bills extends MigrationAbstract
             'type' => $this->enum([1, 2])->notNull()->defaultValue(1),
             'status' => $this->enum([1, 2, 3])->notNull()->defaultValue(1),
             'description' => $this->string(60)->notNull(),
-            'emission_date' => $this->date()->notNull(),
             'due_date' => $this->date()->notNull(),
             'amount' => $this->decimal(10, 2)->notNull(),
             'observations' => $this->text(),

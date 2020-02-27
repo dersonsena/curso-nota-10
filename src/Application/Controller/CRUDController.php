@@ -59,9 +59,19 @@ abstract class CRUDController extends ControllerBase
     /**
      * @return ActiveRecordAbstract
      */
-    protected function getModel(): ActiveRecordAbstract
+    public function getModel(): ActiveRecordAbstract
     {
         return $this->model;
+    }
+
+    /**
+     * @param ActiveRecordAbstract $model
+     * @return $this
+     */
+    public function setModel(ActiveRecordAbstract $model)
+    {
+        $this->model = $model;
+        return $this;
     }
 
     /**
@@ -75,7 +85,7 @@ abstract class CRUDController extends ControllerBase
     /**
      * @return RepositoryAbstract
      */
-    protected function getRepository(): RepositoryAbstract
+    public function getRepository(): RepositoryAbstract
     {
         return $this->repository;
     }
@@ -89,7 +99,7 @@ abstract class CRUDController extends ControllerBase
      */
     protected function findModel($id)
     {
-        $this->model = $this->model::findOne($id);
+        $this->model = $this->repository->findOne($id);
 
         if (is_null($this->model)) {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -99,29 +109,15 @@ abstract class CRUDController extends ControllerBase
     }
 
     /**
-     * Metodo que faz o processo de cadastro ou atualizacao de dados
-     * @return \yii\web\Response
+     * @return bool
+     * @throws Exception
      */
-    protected function saveFormData()
+    public function saveFormData(): bool
     {
-        try {
-            $isNewRecord = $this->getModel()->getIsNewRecord();
-
-            if (!$this->getModel()->save() || $this->getModel()->hasErrors()) {
-                throw new Exception('Houve um erro ao salvar o registro.' . $this->getModel()->getErrorsToHTMLList());
-            }
-
-            Yii::$app->getSession()->setFlash('success', 'Seus dados foram gravados com sucesso!');
-
-            if ($isNewRecord) {
-                return $this->redirect(['index']);
-            }
-
-            return $this->redirect(['update', 'id' => $this->getModel()->id]);
-
-        } catch (Exception $e) {
-            Yii::$app->getSession()->setFlash('error', $e->getMessage());
-            return $this->redirect([$this->action->id]);
+        if (!$this->getRepository()->save($this->getModel()) || $this->getModel()->hasErrors()) {
+            throw new Exception('Houve um erro ao salvar o registro.' . $this->getModel()->getErrorsToHTMLList());
         }
+
+        return true;
     }
 }

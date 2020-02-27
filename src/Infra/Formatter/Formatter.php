@@ -86,6 +86,10 @@ class Formatter extends YiiFormatter
             return null;
         }
 
+        if (strstr($value, '/') === false) {
+            return $value;
+        }
+
         $explodeData = explode("/", $value);
 
         return $explodeData[2] . '-' . $explodeData[1] . '-' . $explodeData[0];

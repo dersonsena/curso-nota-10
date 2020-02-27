@@ -4,16 +4,17 @@ namespace App\Domains\Bill;
 
 use App\Domains\Client\Client;
 use App\Infra\ActiveRecord\ActiveRecordAbstract;
+use Yii;
 
 /**
  * This is the model class for table "{{%bills}}".
  *
  * @property int $id
  * @property int $client_id
+ * @property int $bill_parent_id
  * @property string $type
  * @property string $status
  * @property string $description
- * @property string $emission_date
  * @property string $due_date
  * @property string $amount
  * @property string $observations
@@ -54,14 +55,13 @@ class Bill extends ActiveRecordAbstract
     public function rules()
     {
         return [
-            [['client_id', 'description', 'emission_date', 'due_date', 'amount'], 'required'],
-            ['client_id', 'integer'],
+            [['client_id', 'description', 'due_date', 'amount', 'status'], 'required'],
+            [['client_id', 'bill_parent_id'], 'integer'],
             [['type', 'status', 'observations', 'cancellation_reason'], 'string'],
             [
                 [
-                    'emission_date',
-                    'due_date',
                     'payment_date',
+                    'cancellation_date',
                     'cancellation_date',
                     'created_at',
                     'updated_at',
@@ -79,8 +79,17 @@ class Bill extends ActiveRecordAbstract
                 'targetClass' => Client::class,
                 'targetAttribute' => ['client_id' => 'id']
             ],
-            [['emission_date', 'due_date'], 'date'],
-            [['payment_date', 'cancellation_date'], 'datetime']
+            [
+                'bill_parent_id',
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Bill::class,
+                'targetAttribute' => ['bill_parent_id' => 'id']
+            ],
+            [['payment_date', 'cancellation_date'], 'datetime'],
+            ['due_date', 'filter', 'filter' => function ($value) {
+                return Yii::$app->getFormatter()->asDateUS($value);
+            }]
         ];
     }
 
@@ -91,10 +100,10 @@ class Bill extends ActiveRecordAbstract
     {
         return $this->buildAttributeLabels([
             'client_id' => 'Cliente',
+            'bill_parent_id' => 'Conta Pai',
             'type' => 'Tipo',
             'status' => 'Status',
             'description' => 'Descrição',
-            'emission_date' => 'Data Emissão',
             'due_date' => 'Data Vencimento',
             'amount' => 'Valor',
             'observations' => 'Observações',
@@ -114,13 +123,33 @@ class Bill extends ActiveRecordAbstract
         return $this->hasOne(Client::class, ['id' => 'client_id']);
     }
 
-    public static function getStatusList(): array
+    public function getBill()
     {
-        return [
+        return $this->hasOne(Bill::class, ['id' => 'bill_parent_id']);
+    }
+
+    public function getBills()
+    {
+        return $this->hasMany(Bill::class, ['id' => 'bill_parent_id']);
+    }
+
+    public static function getStatusList(array $exept = []): array
+    {
+        $list = [
             static::STATUS_OPEN => 'Aberto',
             static::STATUS_RECEIVED => 'Recebido',
             static::STATUS_CANCELLED => 'Cancelado',
         ];
+
+        if (empty($exept)) {
+            return $list;
+        }
+
+        foreach ($exept as $status) {
+            unset($list[$status]);
+        }
+
+        return $list;
     }
 
     public static function getTypesList(): array

@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller\Actions;
 
+use Exception;
 use Yii;
 use App\Infra\ActiveRecord\ActiveRecordAbstract;
 
@@ -29,7 +30,15 @@ trait Update
         $post = Yii::$app->getRequest()->post();
 
         if ($model->load($post) && $model->validate()) {
-            return $this->saveFormData();
+            try {
+                $this->saveFormData();
+
+                Yii::$app->getSession()->setFlash('success', 'Seus dados atualizados com sucesso!');
+                return $this->redirect(['update', 'id' => $model->id]);
+            } catch (Exception $e) {
+                Yii::$app->getSession()->setFlash('error', $e->getMessage());
+                return $this->redirect([$this->action->id]);
+            }
         }
 
         return $this->render('update', [
