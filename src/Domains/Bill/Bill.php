@@ -88,6 +88,9 @@ class Bill extends ActiveRecordAbstract
                 'targetAttribute' => ['bill_parent_id' => 'id']
             ],
             [['payment_date', 'cancellation_date'], 'datetime'],
+            [['payment_date', 'cancellation_date'], 'filter', 'filter' => function ($value) {
+                return Yii::$app->getFormatter()->asDatetimeUS($value);
+            }],
             ['due_date', 'filter', 'filter' => function ($value) {
                 return Yii::$app->getFormatter()->asDateUS($value);
             }]
@@ -203,5 +206,29 @@ class Bill extends ActiveRecordAbstract
     public static function getEntityDescription(bool $singularize = false): string
     {
         return ($singularize === true ? 'Conta' : 'Contas');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOpen(): bool
+    {
+        return (int)$this->status === static::STATUS_OPEN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCanceled(): bool
+    {
+        return (int)$this->status === static::STATUS_CANCELLED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReceived(): bool
+    {
+        return (int)$this->status === static::STATUS_RECEIVED;
     }
 }

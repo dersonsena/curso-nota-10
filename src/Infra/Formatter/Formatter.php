@@ -96,6 +96,26 @@ class Formatter extends YiiFormatter
     }
 
     /**
+     * @param $value
+     * @return string|null
+     */
+    public function asDatetimeUS($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        if (strstr($value, '/') === false) {
+            return $value;
+        }
+
+        $exp = explode(' ', $value);
+        $datePart = $this->asDateUS($exp[0]);
+
+        return $datePart . ' ' . $exp[1];
+    }
+
+    /**
      * Metodo que extrai somente o digitos do telefone, sem DDD e sem DDI
      * @param $value
      * @return string

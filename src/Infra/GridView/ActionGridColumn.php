@@ -69,7 +69,7 @@ class ActionGridColumn extends ActionColumn
      * Metodo que cria o botao view nas acoes, caso ele nao exista
      * @return string
      */
-    private function createViewButton()
+    protected function createViewButton()
     {
         $this->buttons['view'] = function ($url, $model, $key) {
             $options = array_merge($this->domainActions::view($model), $this->buttonOptions);
@@ -81,7 +81,7 @@ class ActionGridColumn extends ActionColumn
      * Metodo que cria o botao update nas acoes, caso ele nao exista
      * @return string
      */
-    private function createUpdateButton()
+    protected function createUpdateButton()
     {
         $this->buttons['update'] = function ($url, $model, $key) {
             $options = array_merge($this->domainActions::updateOnGrid($model), $this->buttonOptions);
@@ -93,7 +93,7 @@ class ActionGridColumn extends ActionColumn
      * Metodo que cria o botao delete nas acoes, caso ele nao exista
      * @return string
      */
-    private function createDeleteButton()
+    protected function createDeleteButton()
     {
         $this->buttons['delete'] = function ($url, $model, $key) {
             $options = array_merge($this->domainActions::deleteOnGrid($model), $this->buttonOptions);

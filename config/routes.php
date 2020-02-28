@@ -23,14 +23,16 @@ return [
         '/clients/create' => 'clients/create',
         '/clients/update/<id:\d+>' => 'clients/update',
         '/clients/view/<id:\d+>' => 'clients/view',
-        '/clients/delete/<id:\d+>' => 'clients/delete',
+        'POST /clients/delete/<id:\d+>' => 'clients/delete',
         '/clients/import' => 'clients/import',
 
         '/bills' => 'bills/index',
         '/bills/create' => 'bills/create',
         '/bills/update/<id:\d+>' => 'bills/update',
         '/bills/view/<id:\d+>' => 'bills/view',
-        '/clients/cancel/<id:\d+>' => 'clients/cancel',
+        'POST /bills/delete/<id:\d+>' => 'bills/delete',
+        'POST /bills/receive/<id:\d+>' => 'bills/receive',
+        'POST /bills/reverse/<id:\d+>' => 'bills/reverse',
 
         // To create a standalone route with more configurations:
         /*[

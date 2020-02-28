@@ -3,9 +3,9 @@
 /* @var $searchModel \App\Domains\Bill\BillSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+use App\Domains\Bill\ActionGridColumn;
 use App\Domains\Bill\Bill;
 use App\Domains\Bill\BillActions;
-use App\Infra\GridView\ActionGridColumn;
 use App\Infra\GridView\LinkDataColumn;
 use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 use yii\helpers\Html;

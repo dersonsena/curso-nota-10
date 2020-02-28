@@ -7,6 +7,7 @@ use App\Domains\Bill\BillSearch;
 use App\Infra\Repository\RepositoryAbstract;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 class BillRepository extends RepositoryAbstract
 {
@@ -27,6 +28,7 @@ class BillRepository extends RepositoryAbstract
     {
         /** @var BillSearch $model */
         $model = $this->getEntity();
+        $model->status = '';
 
         $query = $model::find()
             ->orderBy('status ASC, due_date ASC, description ASC');
@@ -53,5 +55,49 @@ class BillRepository extends RepositoryAbstract
         $query->andFilterWhere(['like', 'description', $model->description]);
 
         return $dataProvider;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Throwable
+     */
+    public function receive(int $id): bool
+    {
+        /** @var Bill $bill */
+        $bill = $this->findOne($id);
+
+        if (!$bill) {
+            return false;
+        }
+
+        $identity = Yii::$app->getUser()->getIdentity();
+
+        $bill->status = (string)Bill::STATUS_RECEIVED;
+        $bill->payment_date = date('d/m/Y H:i');
+        $bill->payment_user = $identity->name . " [{$identity->getId()}]";
+
+        return $bill->save();
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Throwable
+     */
+    public function reverse(int $id): bool
+    {
+        /** @var Bill $bill */
+        $bill = $this->findOne($id);
+
+        if (!$bill) {
+            return false;
+        }
+
+        $bill->status = (string)Bill::STATUS_OPEN;
+        $bill->payment_date = null;
+        $bill->payment_user = null;
+
+        return $bill->save();
     }
 }
