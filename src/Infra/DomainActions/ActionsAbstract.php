@@ -90,7 +90,7 @@ abstract class ActionsAbstract
     public static function updateOnView(ActiveRecordAbstract $model, array $options = []): array
     {
         $updateGrid = static::updateOnGrid($model, $options);
-        $updateGrid['size'] = ButtonCreator::SIZE_NORMAL;
+        $updateGrid['text'] = 'Editar';
 
         return $updateGrid;
     }

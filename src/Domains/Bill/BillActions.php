@@ -16,6 +16,15 @@ class BillActions extends ActionsAbstract
         return '/bills';
     }
 
+    public static function updateOnView(ActiveRecordAbstract $model, array $options = []): array
+    {
+        $updateGrid = static::updateOnGrid($model, $options);
+        $updateGrid['text'] = 'Editar';
+        $updateGrid['size'] = ButtonCreator::SIZE_NORMAL;
+
+        return $updateGrid;
+    }
+
     /**
      * @inheritDoc
      */
@@ -69,5 +78,31 @@ class BillActions extends ActionsAbstract
                 'data-pjax' => '0'
             ])
         ];
+    }
+
+    public static function receipt(Bill $model, array $options = []): array
+    {
+        $htmlOptions = ($options['htmlOptions'] ?? []);
+
+        return [
+            'to' => [static::getPath() . '/receipt/' . $model->id],
+            'type' => ButtonCreator::TYPE_LINK,
+            'text' => 'Recibo',
+            'icon' => 'glyphicon glyphicon-ok-sign',
+            'size' => ButtonCreator::SIZE_LITTLE,
+            'htmlOptions' => array_merge($htmlOptions, [
+                'class' => 'btn btn-warning',
+                'title' => 'Gerar recibo desta ' . $model::getEntityDescription(true),
+                'target' => '_blank'
+            ])
+        ];
+    }
+
+    public static function receiptOnView(Bill $model, array $options = []): array
+    {
+        $receiptGrid = static::receipt($model, $options);
+        $receiptGrid['size'] = ButtonCreator::SIZE_NORMAL;
+
+        return $receiptGrid;
     }
 }

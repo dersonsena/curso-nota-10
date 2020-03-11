@@ -7,7 +7,15 @@ use App\Infra\Widgets\ButtonCreator\ButtonCreator;
 
 class ActionGridColumn extends ActionGridColumnBase
 {
-    public $template = '{receive} {reverse} {update} {delete}';
+    /**
+     * @var string
+     */
+    public $template = '{receive} {reverse} {receipt} {update} {delete}';
+
+    /**
+     * @var array
+     */
+    public $headerOptions = ['style' => 'width: 260px', 'class'=>'text-center'];
 
     protected function initDefaultButtons()
     {
@@ -25,6 +33,10 @@ class ActionGridColumn extends ActionGridColumnBase
 
         if (!isset($this->buttons['reverse']) || is_null($this->buttons['reverse'])) {
             $this->createReverseButton();
+        }
+
+        if (!isset($this->buttons['receipt']) || is_null($this->buttons['receipt'])) {
+            $this->createReceiptButton();
         }
     }
 
@@ -48,6 +60,18 @@ class ActionGridColumn extends ActionGridColumnBase
             }
 
             $options = array_merge($this->domainActions::reverse($model), $this->buttonOptions);
+            return ButtonCreator::build($options);
+        };
+    }
+
+    protected function createReceiptButton()
+    {
+        $this->buttons['receipt'] = function ($url, Bill $model, $key) {
+            if ($model->isOpen() || $model->isCanceled()) {
+                return '';
+            }
+
+            $options = array_merge($this->domainActions::receipt($model), $this->buttonOptions);
             return ButtonCreator::build($options);
         };
     }

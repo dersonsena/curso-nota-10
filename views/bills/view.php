@@ -19,6 +19,10 @@ YiiAsset::register($this);
     <p>
         <?= ButtonCreator::build(BillActions::updateOnView($model)) ?>
         <?= ButtonCreator::build(BillActions::deleteOnView($model)) ?>
+
+        <?php if ($model->isReceived()) : ?>
+            <?= ButtonCreator::build(BillActions::receiptOnView($model)) ?>
+        <?php endif; ?>
     </p>
 
     <?= DetailView::widget([
