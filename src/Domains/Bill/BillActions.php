@@ -93,7 +93,9 @@ class BillActions extends ActionsAbstract
             'htmlOptions' => array_merge($htmlOptions, [
                 'class' => 'btn btn-warning',
                 'title' => 'Gerar recibo desta ' . $model::getEntityDescription(true),
-                'target' => '_blank'
+                'target' => '_blank',
+                'data-method' => 'post',
+                'data-pjax' => '0'
             ])
         ];
     }

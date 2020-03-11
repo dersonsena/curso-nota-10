@@ -33,6 +33,7 @@ return [
         'POST /bills/delete/<id:\d+>' => 'bills/delete',
         'POST /bills/receive/<id:\d+>' => 'bills/receive',
         'POST /bills/reverse/<id:\d+>' => 'bills/reverse',
+        'POST /bills/receipt/<id:\d+>' => 'bills/receipt',
 
         // To create a standalone route with more configurations:
         /*[

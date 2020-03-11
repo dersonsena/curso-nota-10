@@ -29,7 +29,8 @@ class BillsController extends CRUDController
         return [
             'create' => CreateAction::class,
             'receive' => ReceiveAction::class,
-            'reverse' => ReverseAction::class
+            'reverse' => ReverseAction::class,
+            'receipt' => ReceiptAction::class,
         ];
     }
 }
