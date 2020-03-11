@@ -231,4 +231,9 @@ class Bill extends ActiveRecordAbstract
     {
         return (int)$this->status === static::STATUS_RECEIVED;
     }
+
+    public function getNumber(): string
+    {
+        return str_pad($this->id, 6, '0', STR_PAD_LEFT);
+    }
 }

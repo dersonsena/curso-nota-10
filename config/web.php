@@ -1,6 +1,7 @@
 <?php
 
 use App\Infra\Formatter\Formatter;
+use kartik\mpdf\Pdf;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -66,6 +67,12 @@ $config = [
                 NumberFormatter::MAX_FRACTION_DIGITS => 2,
             ]
         ],
+        'pdf' => [
+            'class' => Pdf::class,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+        ]
     ],
     'params' => $params,
 ];
