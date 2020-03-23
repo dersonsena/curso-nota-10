@@ -36,7 +36,7 @@ abstract class ControllerBase extends Controller
     /**
      * @return string
      */
-    public function getControllerDescription():? string
+    public function getControllerDescription(): string
     {
         return $this->controllerDescription;
     }
@@ -44,7 +44,7 @@ abstract class ControllerBase extends Controller
     /**
      * @return string
      */
-    public function getActionDescription():? string
+    public function getActionDescription(): string
     {
         return $this->actionDescription;
     }
