@@ -56,7 +56,7 @@ abstract class ActiveRecordAbstract extends ActiveRecord
                 'createdByAttribute' => $this->getCreatedByAttribute(),
                 'updatedByAttribute' => $this->getUpdatedByAttribute(),
                 'deletedByAttribute' => $this->getDeletedByAttribute(),
-                'value' => (isset(Yii::$app->user)
+                'value' => (isset(Yii::$app->user) && !Yii::$app->user->getIsGuest()
                     ? Yii::$app->user->identity->name . ' [' . Yii::$app->user->id . ']'
                     : null
                 )
