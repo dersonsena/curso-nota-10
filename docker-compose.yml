@@ -2,7 +2,7 @@ version: '2'
 services:
   app:
     container_name: ${DOCKER_APP_SERVICE_NAME}
-    image: webdevops/php-nginx-dev:7.3
+    image: webdevops/php-nginx-dev:7.2
     working_dir: /var/www/app
     volumes:
       - .:/var/www/app
@@ -11,6 +11,7 @@ services:
       - WEB_DOCUMENT_INDEX=index.php
       - PHP_MAX_EXECUTION_TIME=86400
       - PHP_DEBUGGER=xdebug
+      - PHP_DATE_TIMEZONE=${DOCKER_TIMEZONE}
       - XDEBUG_REMOTE_PORT=9000
       - XDEBUG_REMOTE_AUTOSTART=1
       - XDEBUG_REMOTE_CONNECT_BACK=off
