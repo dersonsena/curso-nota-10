@@ -38,10 +38,12 @@ AppAsset::register($this);
         ['label' => 'Login', 'url' => ['/auth/login']]
     ];
 
+    $name = (!Yii::$app->getUser()->getIsGuest() ? Yii::$app->getUser()->getIdentity()->name : '');
+
     $privateItems = [
         ['label' => 'Clientes', 'url' => ['/clients']],
         ['label' => 'Financeiro', 'url' => ['/bills']],
-        ['label' => 'Logout ('. Yii::$app->getUser()->getIdentity()->name .')', 'url' => ['/auth/logout']]
+        ['label' => 'Logout ('. $name .')', 'url' => ['/auth/logout']]
     ];
 
     echo Nav::widget([
