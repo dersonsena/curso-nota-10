@@ -1,6 +1,5 @@
 <?php
 /* @var $this yii\web\View */
-
 use yii\helpers\Html;
 
 $this->title = 'Dashboard';
@@ -19,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ...
             </div>
             <div class="panel-footer">
-                <?= Html::a('Ver todos', [], [
+                <?= Html::a('Ver todos', null, [
                     'title' => 'Ver todos os lançamentos do Contas a Receber'
                 ]) ?>
             </div>
@@ -35,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ...
             </div>
             <div class="panel-footer">
-                <?= Html::a('Ver todos', [], [
+                <?= Html::a('Ver todos', null, [
                     'title' => 'Ver todos os lançamentos em Atraso'
                 ]) ?>
             </div>
@@ -53,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ...
             </div>
             <div class="panel-footer">
-                <?= Html::a('Ver todos', [], [
+                <?= Html::a('Ver todos', null, [
                     'title' => 'Ver todos os lançamentos em Aberto'
                 ]) ?>
             </div>
