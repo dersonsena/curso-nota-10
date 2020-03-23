@@ -2,12 +2,11 @@
 
 namespace App\Infra\Repository\Bill;
 
+use Yii;
 use App\Domains\Bill\Bill;
 use App\Domains\Bill\BillSearch;
 use App\Infra\Repository\RepositoryAbstract;
-use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\Expression;
 
 class BillRepository extends RepositoryAbstract
 {

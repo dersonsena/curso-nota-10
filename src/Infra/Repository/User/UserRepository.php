@@ -3,7 +3,8 @@
 namespace App\Infra\Repository\User;
 
 use App\Domains\User\User;
-use App\Application\ActiveRecord\ActiveRecordAbstract;
+
+use App\Infra\ActiveRecord\ActiveRecordAbstract;
 use App\Infra\Repository\RepositoryAbstract;
 
 class UserRepository extends RepositoryAbstract
@@ -18,5 +19,13 @@ class UserRepository extends RepositoryAbstract
     public function findByEmail(string $email)
     {
         return $this->findOne(['email' => $email]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityName(): string
+    {
+        return User::class;
     }
 }
