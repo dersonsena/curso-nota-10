@@ -11,6 +11,7 @@ $this->title = $model->description;
 $this->params['breadcrumbs'][] = ['label' => $this->context->controllerDescription, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->context->viewDescription . ': ' . $this->title;
 YiiAsset::register($this);
+
 ?>
 <div class="bill-view">
 
@@ -35,15 +36,15 @@ YiiAsset::register($this);
             ],
             'id',
             'description',
-            'due_date:date',
+            'due_date',
             'amount:currency',
             [
                 'attribute' => 'client_id',
                 'value' => $model->client->name
             ],
             'observations:ntext',
-            'created_at:date',
-            'updated_at:date',
+            'created_at:datetime',
+            'updated_at',
         ],
     ]) ?>
 </div>

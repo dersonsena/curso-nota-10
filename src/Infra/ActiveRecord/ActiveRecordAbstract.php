@@ -2,6 +2,7 @@
 
 namespace App\Infra\ActiveRecord;
 
+use App\Infra\ActiveRecord\Behaviors\DateColumnsConvertion;
 use Yii;
 use DateTime;
 use App\Infra\ActiveRecord\Behaviors\BlameableBehavior;
@@ -67,6 +68,9 @@ abstract class ActiveRecordAbstract extends ActiveRecord
                     $this->deletedAttribute => true
                 ],
             ],
+            [
+                'class' => DateColumnsConvertion::class
+            ]
         ]);
     }
 
