@@ -28,7 +28,7 @@ $numeroExtenso = $numeroExtenso->converter($bill->amount);
 
 <hr style="margin: 20px 0; border-color: #000">
 
-<p style="margin-bottom: 100px; font-size: 15pt">
+<p style="margin-bottom: 70px; font-size: 13pt">
     Recebi do Sr(a).
     <span style="font-weight: bold; font-size: 17pt; text-transform: uppercase"><?= $bill->client->name ?></span>
     a importância de
@@ -40,7 +40,7 @@ $numeroExtenso = $numeroExtenso->converter($bill->amount);
 
 <table>
     <tr>
-        <td style="width: 400px; font-size: 15pt">Fortaleza, <?= date('d/m/Y') ?></td>
+        <td style="width: 550px; font-size: 15pt">Fortaleza, <?= date('d/m/Y') ?></td>
         <td style="width: 350px; text-align: center">
             <?= Html::img(Yii::getAlias('@webroot/images/assinatura.png'), ['width' => 240]) ?><br />
             <hr>

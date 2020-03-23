@@ -17,6 +17,9 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="panel-body">
             <div class="row">
+                <div class="col-md-1">
+                    <?= $form->field($searchModel, 'id') ?>
+                </div>
                 <div class="col-md-2">
                     <?= $form->field($searchModel, 'dueDateStart')->widget(DatePicker::class, [
                         'language' => 'pt',
@@ -50,6 +53,12 @@ use yii\widgets\ActiveForm;
                         'class' => 'btn btn-primary btn-block'
                     ]) ?>
                 </div>
+            </div>
+            <div>
+                <small class="help-block">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                    <strong>Importante: </strong> se for feito um filtro pelo o <strong>Nº do Recibo</strong>, todos os outros campos serão desconsiderados.
+                </small>
             </div>
         </div>
     </div>

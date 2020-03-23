@@ -2,7 +2,6 @@
 
 namespace App\Domains\Bill;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 
 class BillSearch extends Bill
@@ -32,6 +31,7 @@ class BillSearch extends Bill
     public function rules()
     {
         return [
+            ['id', 'integer'],
             [['dueDateStart', 'dueDateEnd'], 'required'],
             ['description', 'string', 'max' => 60],
             [['client_id', 'status'], 'integer'],
@@ -41,9 +41,10 @@ class BillSearch extends Bill
 
     public function attributeLabels()
     {
-        return ArrayHelper::merge([
+        return ArrayHelper::merge(parent::attributeLabels(), [
+            'id' => 'Nº',
             'dueDateStart' => 'Vencimento Início',
             'dueDateEnd' => 'Vencimento Fim',
-        ], parent::attributeLabels());
+        ]);
     }
 }

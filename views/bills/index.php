@@ -37,6 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'id',
+                'header' => '#',
+                'headerOptions' => ['class' => 'text-right', 'style' => 'width: 80px'],
+                'contentOptions' => ['class' => 'text-right'],
+                'content' => function (Bill $bill) {
+                    return $bill->getNumber();
+                }
+            ],
+            [
                 'attribute' => 'description',
                 'class' => LinkDataColumn::class
             ],
@@ -49,7 +58,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'due_date',
-                'format' => 'date',
                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 130px'],
                 'contentOptions' => ['class' => 'text-center'],
             ],

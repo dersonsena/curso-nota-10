@@ -42,10 +42,16 @@ class BillRepository extends RepositoryAbstract
             return $dataProvider;
         }
 
+        if (!empty($model->id)) {
+            $query->andFilterWhere(['id' => $model->id]);
+            return $dataProvider;
+        }
+
         $dueDateStart = Yii::$app->getFormatter()->asDateUS($model->dueDateStart);
         $dueDateEnd = Yii::$app->getFormatter()->asDateUS($model->dueDateEnd);
 
         $query->andFilterWhere([
+            'id' => $model->id,
             'client_id' => $model->client_id,
             'status' => $model->status,
         ]);

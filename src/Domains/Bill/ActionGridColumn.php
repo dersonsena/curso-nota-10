@@ -15,7 +15,7 @@ class ActionGridColumn extends ActionGridColumnBase
     /**
      * @var array
      */
-    public $headerOptions = ['style' => 'width: 260px', 'class'=>'text-center'];
+    public $headerOptions = ['style' => 'width: 330px', 'class'=>'text-center'];
 
     protected function initDefaultButtons()
     {
